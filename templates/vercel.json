@@ -1,0 +1,94 @@
+{
+  "_comment": "============================================",
+  "_comment2": "VERCEL CONFIGURATION FOR REACT SPA",
+  "_comment3": "============================================",
+  "_comment4": "Place this file in: frontend/vercel.json",
+  "_comment5": "This configures routing and security headers for your React app",
+  "_comment6": "============================================",
+
+  "rewrites": [
+    {
+      "_comment": "Redirect all routes to index.html for client-side routing",
+      "_comment2": "This allows React Router to handle all routes",
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ],
+
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "X-XSS-Protection",
+          "value": "1; mode=block"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=()"
+        }
+      ]
+    },
+    {
+      "_comment": "Cache static assets for 1 year",
+      "source": "/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ],
+
+  "_deployment_notes": {
+    "vercel_dashboard_settings": {
+      "framework": "Vite (auto-detected)",
+      "root_directory": "frontend",
+      "build_command": "npm run build (auto-detected)",
+      "output_directory": "dist (auto-detected)",
+      "install_command": "npm install (auto-detected)",
+      "node_version": "20.x (recommended)"
+    },
+    
+    "environment_variables": [
+      {
+        "name": "VITE_API_URL",
+        "description": "Your Render backend URL",
+        "example": "https://your-app.onrender.com",
+        "required": true,
+        "environments": ["Production", "Preview", "Development"]
+      }
+    ],
+
+    "deployment_checklist": [
+      "□ vercel.json placed in frontend/ directory",
+      "□ Root Directory set to 'frontend' in Vercel settings",
+      "□ VITE_API_URL environment variable added",
+      "□ Git repository connected",
+      "□ Automatic deployments enabled",
+      "□ Production domain configured (if custom domain)",
+      "□ Preview deployments tested"
+    ],
+
+    "troubleshooting": {
+      "404_on_routes": "Ensure rewrites are configured correctly and vercel.json is in frontend/",
+      "blank_page": "Check browser console, verify VITE_API_URL is set",
+      "api_errors": "Verify backend CORS includes your Vercel domain",
+      "build_fails": "Check Node.js version (20.x+ required for Vite)"
+    }
+  }
+}
+

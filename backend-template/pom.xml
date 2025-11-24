@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+         http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- ============================================ -->
+    <!-- SPRING BOOT PARENT -->
+    <!-- ============================================ -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>3.2.0</version>
+        <relativePath/>
+    </parent>
+
+    <!-- ============================================ -->
+    <!-- PROJECT CONFIGURATION -->
+    <!-- CHANGE THESE VALUES FOR YOUR PROJECT -->
+    <!-- ============================================ -->
+    <groupId>com.template.app</groupId>  <!-- CHANGE THIS: e.g., com.acme, com.mycompany -->
+    <artifactId>app-backend</artifactId>  <!-- CHANGE THIS: e.g., acme-api, myapp-backend -->
+    <version>1.0.0-SNAPSHOT</version>
+    <name>Template Backend Service</name>  <!-- CHANGE THIS -->
+    <description>Backend service built with Spring Boot, React, Vercel, Render, and Supabase</description>  <!-- CHANGE THIS -->
+
+    <!-- ============================================ -->
+    <!-- BUILD PROPERTIES -->
+    <!-- ============================================ -->
+    <properties>
+        <!-- Java Version -->
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        
+        <!-- Dependency Versions -->
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <resilience4j.version>2.1.0</resilience4j.version>
+        <testcontainers.version>1.19.3</testcontainers.version>
+    </properties>
+
+    <!-- ============================================ -->
+    <!-- DEPENDENCIES -->
+    <!-- ============================================ -->
+    <dependencies>
+        
+        <!-- ============================================ -->
+        <!-- CORE SPRING BOOT STARTERS -->
+        <!-- ============================================ -->
+        
+        <!-- WebFlux: Reactive web framework -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+        </dependency>
+        
+        <!-- Data JPA: Database access with Hibernate -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-jpa</artifactId>
+        </dependency>
+        
+        <!-- Validation: Bean validation with Hibernate Validator -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+        
+        <!-- Actuator: Production-ready features (health checks, metrics) -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+        
+        <!-- Security: Authentication and authorization -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
+        
+        <!-- OAuth2 Resource Server: JWT validation -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-resource-server</artifactId>
+        </dependency>
+        
+        <!-- OAuth2 Client: Optional, for third-party OAuth -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-oauth2-client</artifactId>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- JWT TOKEN GENERATION -->
+        <!-- ============================================ -->
+        
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>0.12.3</version>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>0.12.3</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>0.12.3</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- SERVLET API (for WebFlux compatibility) -->
+        <!-- ============================================ -->
+        
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- DATABASE -->
+        <!-- ============================================ -->
+        
+        <!-- PostgreSQL Driver -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        
+        <!-- Flyway: Database migrations -->
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- RESILIENCE & FAULT TOLERANCE -->
+        <!-- ============================================ -->
+        
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-spring-boot3</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>io.github.resilience4j</groupId>
+            <artifactId>resilience4j-reactor</artifactId>
+            <version>${resilience4j.version}</version>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- CODE GENERATION & UTILITIES -->
+        <!-- ============================================ -->
+        
+        <!-- MapStruct: DTO/Entity mapping -->
+        <dependency>
+            <groupId>org.mapstruct</groupId>
+            <artifactId>mapstruct</artifactId>
+            <version>${mapstruct.version}</version>
+        </dependency>
+        
+        <!-- Lombok: Reduce boilerplate code -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- OBSERVABILITY & MONITORING -->
+        <!-- ============================================ -->
+        
+        <!-- Prometheus: Metrics export -->
+        <dependency>
+            <groupId>io.micrometer</groupId>
+            <artifactId>micrometer-registry-prometheus</artifactId>
+        </dependency>
+        
+        <!-- OpenTelemetry: Distributed tracing -->
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-api</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.opentelemetry</groupId>
+            <artifactId>opentelemetry-sdk</artifactId>
+        </dependency>
+
+        <!-- ============================================ -->
+        <!-- OPTIONAL: KAFKA (Uncomment if needed) -->
+        <!-- ============================================ -->
+        
+        <!--
+        <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        -->
+
+        <!-- ============================================ -->
+        <!-- OPTIONAL: CSV PROCESSING (Uncomment if needed) -->
+        <!-- ============================================ -->
+        
+        <!--
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-csv</artifactId>
+            <version>1.10.0</version>
+        </dependency>
+        -->
+
+        <!-- ============================================ -->
+        <!-- TESTING -->
+        <!-- ============================================ -->
+        
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-testcontainers</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.projectreactor</groupId>
+            <artifactId>reactor-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>testcontainers</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>${testcontainers.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <!-- ============================================ -->
+    <!-- BUILD CONFIGURATION -->
+    <!-- ============================================ -->
+    
+    <build>
+        <plugins>
+            <!-- Spring Boot Maven Plugin -->
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            
+            <!-- Compiler Plugin with Annotation Processors -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version>
+                <configuration>
+                    <source>21</source>
+                    <target>21</target>
+                    <annotationProcessorPaths>
+                        <!-- MapStruct processor -->
+                        <path>
+                            <groupId>org.mapstruct</groupId>
+                            <artifactId>mapstruct-processor</artifactId>
+                            <version>${mapstruct.version}</version>
+                        </path>
+                        <!-- Lombok -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                            <version>1.18.30</version>
+                        </path>
+                        <!-- Lombok-MapStruct binding -->
+                        <path>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok-mapstruct-binding</artifactId>
+                            <version>0.2.0</version>
+                        </path>
+                    </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <!-- ============================================ -->
+    <!-- CUSTOMIZATION NOTES -->
+    <!-- ============================================ -->
+    <!-- 
+    1. Update groupId, artifactId, name, description
+    2. Adjust Java version if needed (default: 21)
+    3. Uncomment optional dependencies as needed
+    4. Add project-specific dependencies
+    5. Keep spring-boot-maven-plugin for Render deployment
+    6. Lombok + MapStruct configured for code generation
+    
+    Common Additions:
+    - Redis: spring-boot-starter-data-redis
+    - MongoDB: spring-boot-starter-data-mongodb
+    - Email: spring-boot-starter-mail
+    - WebSocket: spring-boot-starter-websocket
+    - GraphQL: spring-boot-starter-graphql
+    -->
+</project>
+

@@ -1,0 +1,202 @@
+# ============================================
+# RENDER BLUEPRINT CONFIGURATION
+# ============================================
+# This file allows you to deploy infrastructure as code
+# Place in repository root for automatic Render detection
+#
+# BEFORE USING:
+# 1. Replace 'your-app-name' with your actual app name
+# 2. Update environment variable values
+# 3. Set up secrets in Render Dashboard
+# 4. Commit and push to trigger deployment
+#
+# DOCUMENTATION:
+# https://render.com/docs/blueprint-spec
+# ============================================
+
+services:
+  # ============================================
+  # Backend Service (Spring Boot + Docker)
+  # ============================================
+  - type: web
+    name: your-app-backend  # CHANGE THIS
+    env: docker
+    rootDir: backend
+    plan: free  # Options: free, starter, standard, pro
+    region: oregon  # Options: oregon, frankfurt, singapore, ohio
+    
+    # Build configuration
+    dockerfilePath: ./Dockerfile
+    dockerContext: .
+    
+    # Health check endpoint
+    healthCheckPath: /actuator/health
+    
+    # Environment variables
+    # IMPORTANT: Use Render Dashboard for sensitive values
+    # Dashboard → Service → Environment → Add Secret File or Environment Variable
+    envVars:
+      # Spring Profile
+      - key: SPRING_PROFILES_ACTIVE
+        value: render
+      
+      # Database Configuration
+      # SECURITY: Set these as secrets in Render Dashboard
+      - key: DB_URL
+        sync: false  # Set manually in dashboard
+      - key: DB_USERNAME
+        sync: false  # Set manually in dashboard
+      - key: DB_PASSWORD
+        sync: false  # Set manually in dashboard
+      - key: DB_POOL_SIZE
+        value: 10
+      - key: DB_MIN_IDLE
+        value: 2
+      
+      # Supabase Configuration
+      # SECURITY: Set these as secrets in Render Dashboard
+      - key: SUPABASE_URL
+        sync: false  # Set manually in dashboard
+      - key: SUPABASE_ANON_KEY
+        sync: false  # Set manually in dashboard
+      - key: SUPABASE_SERVICE_KEY
+        sync: false  # Set manually in dashboard
+      
+      # JWT Configuration
+      # SECURITY: Set as secret in Render Dashboard
+      - key: JWT_SECRET
+        sync: false  # Set manually in dashboard
+      - key: JWT_EXPIRATION_MS
+        value: 86400000
+      
+      # CORS Configuration
+      # Update with your Vercel frontend URL
+      - key: CORS_ALLOWED_ORIGINS
+        value: http://localhost:*,https://your-app.vercel.app,https://your-app-*.vercel.app  # CHANGE THIS
+    
+    # Auto-deploy settings
+    autoDeploy: true  # Deploy on git push
+    
+    # Scaling (only for paid plans)
+    # numInstances: 1  # Uncomment for paid plans
+    
+    # Custom domains (optional)
+    # domains:
+    #   - your-custom-domain.com
+
+# ============================================
+# DEPLOYMENT WORKFLOW
+# ============================================
+# 1. Initial Setup:
+#    - Push this file to your repository
+#    - Go to Render Dashboard
+#    - New → Blueprint
+#    - Connect your repository
+#    - Render will detect render.yaml
+#
+# 2. Configure Secrets:
+#    - Go to your service in Render Dashboard
+#    - Environment → Add Secret File or Environment Variable
+#    - Add all sensitive values (DB_URL, passwords, keys)
+#
+# 3. Deploy:
+#    - Render automatically deploys on git push
+#    - Or use "Manual Deploy" in dashboard
+#
+# 4. Monitor:
+#    - View logs in Render Dashboard
+#    - Check /actuator/health endpoint
+#    - Monitor metrics in dashboard
+# ============================================
+
+# ============================================
+# ENVIRONMENT VARIABLE SECURITY
+# ============================================
+# sync: false means the value must be set manually in dashboard
+# This prevents sensitive data from being in version control
+#
+# To set in Render Dashboard:
+# 1. Service → Environment
+# 2. Add Environment Variable
+# 3. For sensitive values, use "Add Secret File" or mark as secret
+# 4. Redeploy after changes
+# ============================================
+
+# ============================================
+# CUSTOMIZATION OPTIONS
+# ============================================
+# Plans:
+#   - free: $0/mo, sleeps after inactivity, 512MB RAM
+#   - starter: $7/mo, always on, 512MB RAM
+#   - standard: $25/mo, 2GB RAM
+#   - pro: $85/mo, 4GB RAM
+#
+# Regions:
+#   - oregon: US West
+#   - ohio: US East
+#   - frankfurt: Europe
+#   - singapore: Asia
+#
+# Auto-scaling (paid plans only):
+#   - Set numInstances: min-max range
+#   - Example: numInstances: 1-10
+# ============================================
+
+# ============================================
+# ADVANCED: Multiple Services
+# ============================================
+# You can define multiple services in one render.yaml:
+#
+# services:
+#   - type: web
+#     name: api-service
+#     # ... configuration ...
+#
+#   - type: worker
+#     name: background-jobs
+#     # ... configuration ...
+#
+#   - type: cron
+#     name: scheduled-tasks
+#     schedule: "0 0 * * *"  # Daily at midnight
+#     # ... configuration ...
+# ============================================
+
+# ============================================
+# TROUBLESHOOTING
+# ============================================
+# Build fails?
+# - Check Dockerfile is in backend/ directory
+# - Verify rootDir: backend is correct
+# - Check build logs in Render Dashboard
+#
+# Service won't start?
+# - Verify all environment variables are set
+# - Check application logs in dashboard
+# - Ensure health check endpoint is accessible
+#
+# Deployment not triggering?
+# - Verify autoDeploy: true
+# - Check repository is connected
+# - Try manual deploy from dashboard
+#
+# Database connection fails?
+# - Verify DB_URL format and credentials
+# - Check Supabase allows connections from Render IPs
+# - Ensure connection pooler is in Transaction mode
+# ============================================
+
+# ============================================
+# MIGRATION FROM UI-CREATED SERVICE
+# ============================================
+# If you already created a service in Render UI:
+# 1. Create this render.yaml file
+# 2. Push to repository
+# 3. In Render Dashboard:
+#    - Go to your existing service
+#    - Settings → Blueprint Sync
+#    - Enable "Use Blueprint"
+#    - Select this render.yaml
+# 4. Apply changes
+# ============================================
+

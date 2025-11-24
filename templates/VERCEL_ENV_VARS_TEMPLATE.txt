@@ -1,0 +1,79 @@
+# ============================================
+# VERCEL ENVIRONMENT VARIABLES TEMPLATE
+# ============================================
+# Add these in Vercel: Project Settings → Environment Variables
+#
+# BEFORE USING:
+# 1. Replace CHANGE_THIS_* with your actual values
+# 2. Add for ALL environments (Production, Preview, Development)
+# 3. Redeploy after adding/changing variables
+# ============================================
+
+# ============================================
+# Backend API URL
+# ============================================
+# Your Render backend URL (include https://)
+# Format: https://your-app-name.onrender.com
+VITE_API_URL=https://CHANGE_THIS_your-backend.onrender.com
+
+# ============================================
+# Optional: Environment Indicator
+# ============================================
+# Useful for distinguishing environments in the UI
+# Uncomment if needed:
+# VITE_ENVIRONMENT=production
+
+# ============================================
+# Optional: Feature Flags
+# ============================================
+# Control features per environment
+# Uncomment and customize as needed:
+# VITE_ENABLE_ANALYTICS=true
+# VITE_ENABLE_DEBUG_MODE=false
+# VITE_API_TIMEOUT=30000
+
+# ============================================
+# DEPLOYMENT NOTES
+# ============================================
+# Total Variables: 1 (required)
+# Environment Scope: Production, Preview, Development
+#
+# How to Add in Vercel:
+# 1. Go to: https://vercel.com/dashboard
+# 2. Select your project
+# 3. Settings → Environment Variables
+# 4. Add each variable:
+#    - Key: VITE_API_URL
+#    - Value: https://your-backend.onrender.com
+#    - Environments: ✓ Production ✓ Preview ✓ Development
+# 5. Save
+# 6. Redeploy: Deployments → Latest → Redeploy
+# ============================================
+
+# ============================================
+# TROUBLESHOOTING
+# ============================================
+# API calls failing?
+# - Check VITE_API_URL format (must include https://)
+# - Verify Render backend is running
+# - Check browser console for CORS errors
+# - Ensure backend CORS_ALLOWED_ORIGINS includes your Vercel URL
+#
+# Environment variables not working?
+# - Remember: VITE_ prefix required for Vite apps
+# - Redeploy after changes (not automatic)
+# - Check: View Source → search for "VITE_API_URL" in built files
+# ============================================
+
+# ============================================
+# DEPLOYMENT CHECKLIST
+# ============================================
+# □ VITE_API_URL set to Render backend URL
+# □ Variable added to all environments
+# □ No trailing slash in URL
+# □ HTTPS protocol included
+# □ Backend CORS configured for this frontend URL
+# □ Redeployed after adding variables
+# □ Tested in browser console: import.meta.env.VITE_API_URL
+# ============================================
+

@@ -1,0 +1,313 @@
+# ============================================
+# SPRING BOOT APPLICATION CONFIGURATION
+# ============================================
+# Place this file in: backend/src/main/resources/application.yml
+#
+# BEFORE USING:
+# 1. Replace 'com.template.app' with your package name
+# 2. Replace 'your_schema' with your database schema name
+# 3. Update datasource settings for local development
+# 4. Customize logging levels as needed
+# ============================================
+
+spring:
+  application:
+    name: your-app-name  # CHANGE THIS
+
+  # ============================================
+  # Database Configuration
+  # ============================================
+  datasource:
+    # Environment variables override these defaults
+    # Local dev: Use docker-compose.yml credentials
+    # Production: Set via Render environment variables
+    url: ${DB_URL:jdbc:postgresql://localhost:5433/your_app_db?currentSchema=public}
+    username: ${DB_USERNAME:your_app_user}
+    password: ${DB_PASSWORD:your_app_pass}
+    
+    driver-class-name: org.postgresql.Driver
+    
+    # HikariCP Connection Pool Configuration
+    hikari:
+      # Maximum number of connections in pool
+      # Production: Set via DB_POOL_SIZE env var
+      # Local dev: 10 is sufficient
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+      
+      # Minimum number of idle connections
+      # Production: Set via DB_MIN_IDLE env var
+      # Keep low to reduce resource usage
+      minimum-idle: ${DB_MIN_IDLE:2}
+      
+      # Connection timeout (30 seconds)
+      connection-timeout: 30000
+      
+      # Idle timeout (10 minutes)
+      # Connections idle longer than this are removed
+      idle-timeout: 600000
+      
+      # Max lifetime (30 minutes)
+      # Prevents stale connections
+      max-lifetime: 1800000
+      
+      # Connection test query
+      connection-test-query: SELECT 1
+      
+      # Pool name for logging
+      pool-name: YourAppHikariPool  # CHANGE THIS
+
+  # ============================================
+  # JPA / Hibernate Configuration
+  # ============================================
+  jpa:
+    # Hibernate DDL Auto
+    # - none: No schema management (use Flyway/Liquibase instead)
+    # - validate: Validate schema matches entities
+    # - update: Update schema (not recommended for production)
+    # - create-drop: Recreate schema on startup (dev/test only)
+    hibernate:
+      ddl-auto: none  # IMPORTANT: Keep as 'none' for production
+      
+      # Naming strategy
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+        implicit-strategy: org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl
+    
+    # Show SQL queries in logs (disable in production)
+    show-sql: false
+    
+    # Properties
+    properties:
+      hibernate:
+        # SQL formatting (easier to read in logs)
+        format_sql: true
+        
+        # Use JDBC timezone
+        jdbc:
+          time_zone: UTC
+        
+        # Default schema
+        default_schema: ${DB_SCHEMA:public}  # CHANGE THIS to your schema
+        
+        # Dialect
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        
+        # Performance optimization
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  # ============================================
+  # Flyway Configuration (Database Migrations)
+  # ============================================
+  flyway:
+    enabled: true
+    baseline-on-migrate: true
+    locations: classpath:db/migration
+    default-schema: ${DB_SCHEMA:public}  # CHANGE THIS to your schema
+    table: flyway_schema_history
+    
+    # Flyway will create the schema if it doesn't exist
+    create-schemas: false
+    
+    # Validate migrations on startup
+    validate-on-migrate: true
+
+  # ============================================
+  # Server Configuration
+  # ============================================
+server:
+  port: ${PORT:8080}
+  
+  # Compression
+  compression:
+    enabled: true
+    mime-types: application/json,application/xml,text/html,text/xml,text/plain
+  
+  # Error handling
+  error:
+    include-message: always
+    include-binding-errors: always
+    include-stacktrace: on_param
+    include-exception: false
+
+  # Servlet configuration
+  servlet:
+    context-path: /
+    session:
+      timeout: 30m
+      cookie:
+        http-only: true
+        secure: ${COOKIE_SECURE:false}  # true in production
+        same-site: ${COOKIE_SAME_SITE:Lax}  # 'None' for cross-origin
+
+# ============================================
+# Logging Configuration
+# ============================================
+logging:
+  level:
+    root: INFO
+    
+    # Your application packages - CHANGE THIS
+    com.template.app: INFO  # CHANGE: com.template.app to your package
+    
+    # Spring Framework
+    org.springframework: WARN
+    org.springframework.web: INFO
+    org.springframework.security: INFO
+    
+    # Database
+    org.hibernate: WARN
+    org.hibernate.SQL: INFO  # Set to DEBUG to see SQL queries
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE  # See query parameters
+    
+    # Connection pool
+    com.zaxxer.hikari: WARN
+    
+    # Flyway
+    org.flywaydb: INFO
+  
+  # Log pattern
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } --- [%15.15t] %-40.40logger{39} : %m%n%wEx"
+
+# ============================================
+# Application-Specific Configuration
+# ============================================
+app:
+  # JWT Configuration
+  jwt:
+    secret: ${JWT_SECRET:default-secret-key-change-in-production}  # MUST set in production
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}  # 24 hours
+  
+  # CORS Configuration
+  cors:
+    allowed-origins: ${CORS_ALLOWED_ORIGINS:http://localhost:3000,http://localhost:5173}
+    allowed-methods: GET,POST,PUT,DELETE,PATCH,OPTIONS
+    allowed-headers: "*"
+    allow-credentials: true
+    max-age: 3600
+  
+  # Supabase Configuration
+  supabase:
+    url: ${SUPABASE_URL:https://your-project.supabase.co}
+    anon-key: ${SUPABASE_ANON_KEY:your-anon-key}
+    service-key: ${SUPABASE_SERVICE_KEY:your-service-key}
+
+# ============================================
+# Actuator Configuration (Health Checks)
+# ============================================
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+      base-path: /actuator
+  
+  endpoint:
+    health:
+      show-details: when-authorized
+      show-components: when-authorized
+  
+  health:
+    defaults:
+      enabled: true
+    db:
+      enabled: true
+
+---
+# ============================================
+# PRODUCTION PROFILE (Render)
+# ============================================
+spring:
+  config:
+    activate:
+      on-profile: render
+
+  # Production datasource (use env vars)
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    hikari:
+      maximum-pool-size: ${DB_POOL_SIZE:10}
+      minimum-idle: ${DB_MIN_IDLE:2}
+
+  # JPA settings for production
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: false
+
+# Production logging
+logging:
+  level:
+    root: WARN
+    com.template.app: INFO  # CHANGE THIS to your package
+    org.springframework.web: INFO
+    org.hibernate.SQL: WARN
+
+# Production server settings
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true
+        same-site: None  # Required for cross-origin (Vercel + Render)
+
+---
+# ============================================
+# DEVELOPMENT PROFILE (Local)
+# ============================================
+spring:
+  config:
+    activate:
+      on-profile: dev
+
+  # Development datasource (docker-compose)
+  datasource:
+    url: jdbc:postgresql://localhost:5433/your_app_db?currentSchema=public  # CHANGE THIS
+    username: your_app_user  # CHANGE THIS
+    password: your_app_pass  # CHANGE THIS
+
+  # JPA settings for development
+  jpa:
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Development logging (more verbose)
+logging:
+  level:
+    root: INFO
+    com.template.app: DEBUG  # CHANGE THIS to your package
+    org.springframework.web: DEBUG
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+
+# Development server settings
+server:
+  servlet:
+    session:
+      cookie:
+        secure: false
+        same-site: Lax
+
+# ============================================
+# CUSTOMIZATION CHECKLIST
+# ============================================
+# □ Update spring.application.name
+# □ Change com.template.app to your package name (3 places)
+# □ Update DB_SCHEMA to your schema name (2 places)
+# □ Change docker-compose credentials in dev profile
+# □ Update HikariCP pool-name
+# □ Review and adjust connection pool sizes
+# □ Set appropriate logging levels
+# □ Configure JWT settings
+# □ Update CORS allowed origins
+# □ Set Supabase default URLs
+# ============================================
+

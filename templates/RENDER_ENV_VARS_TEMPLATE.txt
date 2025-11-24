@@ -1,0 +1,88 @@
+# ============================================
+# RENDER ENVIRONMENT VARIABLES TEMPLATE
+# ============================================
+# Copy these variables into your Render Web Service settings:
+# Dashboard → Your Service → Environment → Environment Variables
+#
+# BEFORE USING:
+# 1. Replace all placeholder values (indicated by CHANGE_THIS_*)
+# 2. Get Supabase credentials from: https://app.supabase.com/project/YOUR_PROJECT/settings/api
+# 3. Get database connection from: Supabase → Database → Connect → Pooler (Transaction mode)
+# 4. Generate JWT_SECRET: openssl rand -base64 32
+# 5. Update CORS_ALLOWED_ORIGINS with your Vercel frontend URL
+# ============================================
+
+# ============================================
+# Spring Profile
+# ============================================
+SPRING_PROFILES_ACTIVE=render
+
+# ============================================
+# Database Configuration (Supabase Pooler - Transaction Mode)
+# ============================================
+# Format: jdbc:postgresql://[HOST]:[PORT]/postgres?currentSchema=[YOUR_SCHEMA]
+# Use Transaction mode (port 6543) for higher connection limits
+# Host format: aws-0-[region].pooler.supabase.com
+DB_URL=jdbc:postgresql://CHANGE_THIS_aws-0-us-east-1.pooler.supabase.com:6543/postgres?currentSchema=CHANGE_THIS_your_schema
+DB_USERNAME=postgres.CHANGE_THIS_YOUR_PROJECT_REF
+DB_PASSWORD=CHANGE_THIS_YOUR_DATABASE_PASSWORD
+
+# Connection Pool Settings
+# Transaction mode allows up to 200 connections (free tier)
+# Adjust based on your Render plan:
+# - Free/Starter: 10-15 connections
+# - Standard: 20-30 connections
+DB_POOL_SIZE=10
+DB_MIN_IDLE=2
+
+# ============================================
+# Supabase Configuration
+# ============================================
+# Get from: Supabase → Settings → API
+# Note: Use "publishable" key (not "anon" - that's legacy)
+SUPABASE_URL=https://CHANGE_THIS_YOUR_PROJECT_REF.supabase.co
+SUPABASE_ANON_KEY=CHANGE_THIS_YOUR_PUBLISHABLE_KEY
+SUPABASE_SERVICE_KEY=CHANGE_THIS_YOUR_SECRET_KEY
+
+# ============================================
+# JWT Configuration
+# ============================================
+# Generate: openssl rand -base64 32
+# Keep this secret and consistent across deployments
+JWT_SECRET=CHANGE_THIS_GENERATE_WITH_OPENSSL
+JWT_EXPIRATION_MS=86400000
+
+# ============================================
+# CORS Configuration
+# ============================================
+# Add your Vercel frontend URLs (both preview and production)
+# Format: https://your-app.vercel.app,https://your-app-*.vercel.app
+# Note: Wildcard patterns like http://localhost:* for local dev
+CORS_ALLOWED_ORIGINS=http://localhost:*,https://CHANGE_THIS_your-app.vercel.app,https://CHANGE_THIS_your-app-*.vercel.app
+
+# ============================================
+# QUICK REFERENCE
+# ============================================
+# Total Variables: 11
+# Required: All of the above
+# Optional: None (all are required for production)
+#
+# Common Issues:
+# - DB connection fails: Check Transaction mode port (6543) and username format
+# - CORS errors: Ensure Vercel URL is in CORS_ALLOWED_ORIGINS
+# - 401 errors: Verify JWT_SECRET matches across all environments
+# - Pool exhaustion: Increase DB_POOL_SIZE (max 200 in Transaction mode)
+# ============================================
+
+# ============================================
+# DEPLOYMENT CHECKLIST
+# ============================================
+# □ All CHANGE_THIS_* values replaced
+# □ Supabase credentials copied from dashboard
+# □ JWT_SECRET generated and saved securely
+# □ CORS includes your Vercel frontend URL
+# □ Database connection tested (use Transaction mode)
+# □ Environment variables added to Render dashboard
+# □ Manual deploy triggered to apply changes
+# ============================================
+

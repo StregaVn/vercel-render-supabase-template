@@ -1,0 +1,296 @@
+# ============================================
+# GITIGNORE TEMPLATE
+# ============================================
+# Place in repository root
+# Prevents committing sensitive data and build artifacts
+# ============================================
+
+# ============================================
+# Environment Variables & Secrets
+# ============================================
+.env
+.env.local
+.env.development
+.env.production
+.env.test
+*.env
+.env.*
+
+# Credentials and secrets
+credentials.txt
+secrets.yaml
+*.pem
+*.key
+*.crt
+*.p12
+*.jks
+
+# ============================================
+# Operating System
+# ============================================
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.DocumentRevisions-V100
+.fseventsd
+.Spotlight-V100
+.TemporaryItems
+.Trashes
+.VolumeIcon.icns
+.com.apple.timemachine.donotpresent
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+ehthumbs_vista.db
+*.stackdump
+[Dd]esktop.ini
+$RECYCLE.BIN/
+*.cab
+*.msi
+*.msix
+*.msm
+*.msp
+*.lnk
+
+# Linux
+*~
+.directory
+.Trash-*
+
+# ============================================
+# IDEs and Editors
+# ============================================
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+.idea_modules/
+
+# Eclipse
+.classpath
+.project
+.settings/
+*.launch
+.metadata
+
+# Visual Studio Code
+.vscode/
+*.code-workspace
+.history/
+
+# NetBeans
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
+
+# Vim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+*.elc
+auto-save-list
+tramp
+
+# ============================================
+# Backend (Java/Spring Boot)
+# ============================================
+
+# Maven
+target/
+pom.xml.tag
+pom.xml.releaseBackup
+pom.xml.versionsBackup
+pom.xml.next
+release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+.mvn/timing.properties
+.mvn/wrapper/maven-wrapper.jar
+
+# NOTE: Maven Wrapper should be committed for Render deployment
+# Uncomment the following lines ONLY if you're NOT using Render
+# or if you have Maven installed globally
+# .mvn/
+# mvnw
+# mvnw.cmd
+
+# Gradle
+.gradle/
+build/
+!gradle/wrapper/gradle-wrapper.jar
+!**/src/main/**/build/
+!**/src/test/**/build/
+
+# Spring Boot
+spring-boot-*.log
+*.log
+logs/
+*.gz
+
+# ============================================
+# Frontend (React/Vite)
+# ============================================
+
+# Dependencies
+node_modules/
+jspm_packages/
+bower_components/
+
+# Build output
+dist/
+dist-ssr/
+build/
+*.local
+
+# Testing
+coverage/
+.nyc_output/
+*.lcov
+
+# Cache
+.cache/
+.parcel-cache/
+.npm/
+.eslintcache
+.stylelintcache
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Editor directories
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+
+# Package manager
+package-lock.json  # Uncomment if using yarn/pnpm
+yarn.lock  # Uncomment if using npm/pnpm
+pnpm-lock.yaml  # Uncomment if using npm/yarn
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# ============================================
+# Database
+# ============================================
+
+# PostgreSQL
+*.sql.backup
+*.dump
+*.backup
+postgres_data/
+
+# SQLite
+*.db
+*.sqlite
+*.sqlite3
+
+# Database dumps
+*.sql.gz
+
+# ============================================
+# Docker
+# ============================================
+*.log
+docker-compose.override.yml
+
+# Don't ignore docker-compose.yml - it's needed for local dev
+# Don't ignore Dockerfile - it's needed for Render
+
+# ============================================
+# Logs and Temporary Files
+# ============================================
+*.log
+logs/
+temp/
+tmp/
+*.tmp
+*.temp
+*.swp
+*.swo
+
+# ============================================
+# Documentation (Optional)
+# ============================================
+# Uncomment if you don't want to commit documentation
+# docs/
+# *.md
+
+# But keep important docs
+!README.md
+!CHANGELOG.md
+!CONTRIBUTING.md
+!LICENSE.md
+
+# ============================================
+# Testing
+# ============================================
+coverage/
+*.lcov
+.nyc_output/
+test-results/
+junit.xml
+allure-results/
+allure-report/
+
+# ============================================
+# CI/CD
+# ============================================
+.github/workflows/*.log
+
+# ============================================
+# Misc
+# ============================================
+.scannerwork/
+*.pid
+*.seed
+*.pid.lock
+.npm
+
+# ============================================
+# IMPORTANT NOTES
+# ============================================
+# Files that SHOULD be committed:
+# ✓ mvnw, mvnw.cmd (needed for Render)
+# ✓ Dockerfile (needed for Render)
+# ✓ docker-compose.yml (needed for local dev)
+# ✓ render.yaml (optional, for infrastructure as code)
+# ✓ vercel.json (needed for Vercel SPA routing)
+# ✓ pom.xml (backend dependencies)
+# ✓ package.json (frontend dependencies)
+# ✓ src/ directories (your code!)
+# ✓ README.md (project documentation)
+#
+# Files that should NEVER be committed:
+# ✗ .env files (contain secrets)
+# ✗ node_modules/ (reinstall with npm install)
+# ✗ target/ (rebuild with mvn package)
+# ✗ dist/ (rebuild with npm run build)
+# ✗ *.log files (generated at runtime)
+# ============================================
+

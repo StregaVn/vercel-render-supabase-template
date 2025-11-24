@@ -1,0 +1,102 @@
+version: '3.8'
+
+# ============================================
+# LOCAL DEVELOPMENT DOCKER COMPOSE
+# ============================================
+# This sets up a local PostgreSQL database for development
+# Use this when you want to develop locally without connecting to Supabase
+#
+# BEFORE USING:
+# 1. Replace 'your_app' with your app name (e.g., 'acme', 'myapp')
+# 2. Update database credentials as needed
+# 3. Consider changing the exposed port if 5433 conflicts
+#
+# USAGE:
+# Start:  docker-compose up -d
+# Stop:   docker-compose down
+# Reset:  docker-compose down -v  (deletes data!)
+# Logs:   docker-compose logs -f postgres
+# ============================================
+
+services:
+  postgres:
+    image: postgres:16
+    container_name: your_app-postgres  # CHANGE THIS
+    environment:
+      # Database configuration
+      POSTGRES_DB: your_app_db          # CHANGE THIS
+      POSTGRES_USER: your_app_user      # CHANGE THIS
+      POSTGRES_PASSWORD: your_app_pass  # CHANGE THIS (use something more secure)
+    ports:
+      # Maps local port 5433 to container port 5432
+      # Using 5433 to avoid conflicts with other local PostgreSQL instances
+      # Connect using: jdbc:postgresql://localhost:5433/your_app_db
+      - "5433:5432"
+    volumes:
+      # Persist database data across container restarts
+      - postgres_data:/var/lib/postgresql/data
+      
+      # Optional: Load initial schema/data on first start
+      # Uncomment and add your SQL files to ./docker-init/
+      # - ./docker-init:/docker-entrypoint-initdb.d
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U your_app_user -d your_app_db"]  # CHANGE THIS
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - your_app-network  # CHANGE THIS
+
+networks:
+  your_app-network:  # CHANGE THIS
+    driver: bridge
+
+volumes:
+  postgres_data:
+    # Named volume for database persistence
+    # Location: Docker's volume directory (varies by OS)
+    # View: docker volume inspect vercel-render-supabase-template_postgres_data
+
+# ============================================
+# CONNECTION STRINGS
+# ============================================
+# JDBC URL:
+#   jdbc:postgresql://localhost:5433/your_app_db?currentSchema=public
+#
+# psql command:
+#   psql -h localhost -p 5433 -U your_app_user -d your_app_db
+#
+# DBeaver/DataGrip:
+#   Host: localhost
+#   Port: 5433
+#   Database: your_app_db
+#   Username: your_app_user
+#   Password: your_app_pass
+# ============================================
+
+# ============================================
+# TROUBLESHOOTING
+# ============================================
+# Port already in use?
+# - Change "5433:5432" to another port like "5434:5432"
+# - Update connection strings accordingly
+#
+# Container won't start?
+# - Check logs: docker-compose logs postgres
+# - Verify port not in use: lsof -i :5433
+# - Try: docker-compose down -v && docker-compose up -d
+#
+# Can't connect?
+# - Verify container is running: docker-compose ps
+# - Check health: docker-compose exec postgres pg_isready
+# - Ensure firewall allows port 5433
+# ============================================
+
+# ============================================
+# PRODUCTION NOTE
+# ============================================
+# This docker-compose.yml is for LOCAL DEVELOPMENT ONLY!
+# Do NOT use this for production deployments.
+# Production uses Supabase PostgreSQL (see DEPLOYMENT_PLAN.md)
+# ============================================
+
