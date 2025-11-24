@@ -4,12 +4,14 @@ A production-ready full-stack template for deploying modern web applications wit
 
 ## 🎯 What's Included
 
-✅ **Frontend Template** - React 18+ with TypeScript, Vite, Tailwind CSS  
-✅ **Backend Template** - Spring Boot 3.4+ with Java 21, WebFlux  
-✅ **Authentication** - JWT with secure HTTP-only cookies  
-✅ **Database** - PostgreSQL with Flyway migrations  
-✅ **Deployment** - Automated CI/CD with Docker  
-✅ **Documentation** - Complete guides and troubleshooting
+✅ **Frontend Template** - React 19 with TypeScript, Vite 7, Tailwind CSS  
+✅ **Backend Template** - Spring Boot 3.2 with Java 21, WebFlux (reactive)  
+✅ **Authentication** - JWT with secure HTTP-only cookies, BCrypt password hashing  
+✅ **Database** - PostgreSQL with Flyway migrations, Supabase integration  
+✅ **Deployment** - Docker for Render, optimized builds for Vercel  
+✅ **CI/CD** - GitHub Actions workflow for automated testing and builds  
+✅ **Documentation** - Complete guides, architecture docs, troubleshooting  
+✅ **Scripts** - Setup and start scripts for local development
 
 ## 📊 Tech Stack
 
